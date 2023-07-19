@@ -17,8 +17,6 @@
 #include <sleep.h>
 #include <integrity.h>
 #include <gpio_button.h>
-#include <bme280.h>
-#include <bme280_ui.h>
 #include <json.hpp>
 #include <gpio_watcher.h>
 
@@ -173,7 +171,6 @@ int main()
 #endif
 
     std::vector<std::shared_ptr<DeviceBase>> radio_devs = {radio};
-    auto bme280 = std::make_shared<BME280>("bme280.cfg");
 
     std::vector<GPIOWatcher<Radio>*> gpio_watchers;
 #ifdef USE_C1101
@@ -239,8 +236,6 @@ int main()
 
     shell->controller->AddSystem(radio_ui);
     shell->controller->AddSystem(radio_ui_raw);
-    shell->controller->AddSystem(std::make_shared<BME280UI>(bme280));
-    shell->controller->AddSystem(make_bme280_raw_ui(bme280));
 
     radio->Goto(Radio::State::RX);
 
